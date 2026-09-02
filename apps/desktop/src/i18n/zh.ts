@@ -3179,6 +3179,8 @@ export const zh: Translations = {
       manualDescription: '执行需要审批的操作前询问',
       smart: '智能',
       smartDescription: '自动评估操作，并在需要时询问',
+      plan: '计划',
+      planDescription: '计划模式会暂停更改，直到你批准计划',
       off: '关闭',
       offDescription: '不显示审批提示，直接运行'
     },

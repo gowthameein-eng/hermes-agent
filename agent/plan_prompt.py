@@ -41,6 +41,19 @@ For this turn, you are in PLAN MODE — planning only.
   the plan with the workspace on local, docker, ssh, modal, and daytona
   backends). If the runtime provides a specific target path, use that exact
   path instead.
+- Follow the `plan-interview` skill's dependency-tree interview. Before writing
+  the plan, inspect the workspace with read-only tools, map the decisions that
+  materially change the implementation, and ask the user the current frontier
+  through the `clarify` tool. Ask all independent questions in one round, then
+  wait for the answers before asking dependent questions. Never invent an
+  answer merely to finish the plan.
+- When the frontier is settled, present the complete plan and ask for explicit
+  approval with `clarify` (choices: `Approve plan`, `Revise plan`, `Cancel`).
+  Do not implement anything unless the user approves. If they request changes,
+  reopen the affected decision and run another interview round.
+- After approval, keep the plan-mode turn read-only and stop. The next user
+  turn may execute the approved plan; do not silently begin implementation in
+  the same turn.
 """
 
 _PLAN_CRAFT = """\
@@ -66,12 +79,12 @@ authentication"), incomplete code ("add validation here"), and unverifiable
 steps ("test it works" — instead: the exact command and its expected output).
 
 Interaction style:
-- If the request is clear enough, write the plan directly.
-- If it is genuinely underspecified, ask a brief clarifying question instead
-  of guessing.
-- After saving the plan, reply briefly with what you planned and the saved
-  path, and offer to execute it (e.g. via subagent-driven development) —
-  but do not start executing in this turn.
+- Use the `plan-interview` skill for every non-trivial implementation request;
+  do not skip the interview just because the request sounds clear.
+- If the request is genuinely underspecified, ask a focused frontier question
+  rather than guessing.
+- After the user approves, reply briefly with the saved path and state that
+  execution is available on the next turn — but do not start it now.
 """
 
 

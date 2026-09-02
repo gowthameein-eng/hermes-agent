@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Context status-bar options</title>
+<style>
+:root {
+  --bg:#f5f3ed; --panel:#fffdf8; --panel-2:#ebe8e0; --text:#24221f; --muted:#625e57;
+  --faint:#8b867d; --line:#d4d0c6; --accent:#c96544; --accent-soft:#f1d9cf;
+  --blue:#617d99; --green:#6d907d; --amber:#b78b4e; --red:#b75c50;
+  --shadow:0 18px 50px rgba(44,37,29,.12);
+}
+:root[data-theme="dark"] { --bg:#151515; --panel:#212120; --panel-2:#2a2a28; --text:#efeeeb; --muted:#c2beb7; --faint:#97938b; --line:#444441; --accent:#d97757; --accent-soft:#4a2d25; --shadow:0 18px 50px rgba(0,0,0,.28); }
+* { box-sizing:border-box; }
+html,body { margin:0; min-height:100%; }
+body { background:var(--bg); color:var(--text); font:14px/1.4 Lato, -apple-system, BlinkMacSystemFont, sans-serif; }
+button { font:inherit; color:inherit; }
+.shell { width:min(1180px, calc(100% - 32px)); margin:24px auto 40px; }
+.header { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:22px; }
+.eyebrow { color:var(--accent); font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; }
+h1 { margin:5px 0 5px; font-size:27px; line-height:1.12; letter-spacing:-.025em; font-weight:500; }
+.intro { margin:0; max-width:690px; color:var(--muted); }
+.theme { display:flex; gap:2px; padding:3px; border:1px solid var(--line); border-radius:8px; background:var(--panel); }
+.theme button { border:0; border-radius:5px; padding:6px 9px; background:transparent; color:var(--muted); cursor:pointer; font-size:12px; }
+.theme button.active { background:var(--panel-2); color:var(--text); }
+.grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
+.card { min-width:0; padding:16px; border:1px solid var(--line); border-radius:12px; background:var(--panel); box-shadow:var(--shadow); }
+.card.selected { border-color:color-mix(in srgb,var(--accent) 75%, var(--line)); box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent), var(--shadow); }
+.card-head { display:flex; justify-content:space-between; gap:12px; align-items:baseline; }
+.option { color:var(--faint); font-size:11px; font-weight:500; letter-spacing:.11em; text-transform:uppercase; }
+.card h2 { margin:4px 0 4px; font-size:17px; font-weight:500; }
+.card p { margin:0; color:var(--muted); font-size:12px; min-height:35px; }
+.demo { display:flex; align-items:center; min-height:116px; margin:16px -2px 14px; padding:14px; border-radius:9px; background:var(--bg); }
+.statusbar { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-width:0; height:26px; padding:0 7px; border:1px solid var(--line); border-radius:6px; background:var(--panel); color:var(--muted); font-size:11px; }
+.status-left,.status-right { display:flex; align-items:center; gap:8px; min-width:0; }
+.status-right { margin-left:auto; }
+.truncate { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex:none; }
+.dot.warn { background:var(--amber); }
+.dot.hot { background:var(--red); }
+.meter { display:flex; width:46px; height:5px; overflow:hidden; border-radius:99px; background:var(--panel-2); }
+.meter i { display:block; height:100%; }
+.meter .conversation { background:var(--blue); width:52%; }.meter .tools { background:var(--accent); width:19%; }.meter .system { background:var(--amber); width:10%; }
+.value { color:var(--text); font-variant-numeric:tabular-nums; }
+.ring { display:grid; place-items:center; width:18px; height:18px; border-radius:50%; background:conic-gradient(var(--accent) 71%, var(--panel-2) 0); position:relative; }
+.ring:after { content:""; width:12px; height:12px; border-radius:50%; background:var(--panel); }
+.ring.hot { background:conic-gradient(var(--red) 92%, var(--panel-2) 0); }
+.chip { padding:2px 5px; border-radius:4px; background:var(--accent-soft); color:var(--accent); font-size:10px; font-weight:500; }
+.context-line { display:flex; align-items:center; gap:7px; min-width:0; }
+.context-line .label { color:var(--muted); }
+.card-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.best { color:var(--accent); font-size:11px; font-weight:500; }
+.select { border:1px solid var(--line); border-radius:6px; padding:6px 9px; background:transparent; cursor:pointer; font-size:12px; }
+.detail { margin-top:18px; padding:15px 16px; border-top:1px solid var(--line); color:var(--muted); }
+.detail strong { color:var(--text); font-weight:500; }
+@media (max-width:840px) { .shell { width:min(100% - 24px, 620px); margin-top:16px; } .header { flex-direction:column; gap:12px; } .grid { grid-template-columns:1fr; } .card p { min-height:0; } .demo { min-height:92px; } }
+@media (max-width:420px) { .shell { width:calc(100% - 20px); } h1 { font-size:23px; } .statusbar { font-size:10px; } .status-left span:last-child { display:none; } }
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="header">
+    <div>
+      <div class="eyebrow">Hermes Desktop · status bar study</div>
+      <h1>Context window, without the noise</h1>
+      <p class="intro">Three ways to make context usage feel intentional: a quiet segmented meter, a compact ring, or a text-first status line. Click an option to mark a direction.</p>
+    </div>
+    <nav class="theme" aria-label="Theme"><button data-theme="light">Light</button><button data-theme="dark" class="active">Dark</button><button data-theme="system">System</button></nav>
+  </header>
+  <section class="grid" aria-label="Context status-bar options">
+    <article class="card selected" data-option="A">
+      <div class="card-head"><span class="option">Option A</span><span class="best">Recommended</span></div>
+      <h2>Segmented meter</h2>
+      <p>Best balance of glanceability and information. Shows capacity plus what is consuming it.</p>
+      <div class="demo"><div class="statusbar"><div class="status-left"><span class="dot"></span><span class="truncate">Ready</span></div><div class="status-right"><div class="meter" aria-label="71 percent full"><i class="conversation"></i><i class="tools"></i><i class="system"></i></div><span class="value">71%</span><span>Context</span></div></div></div>
+      <div class="card-footer"><span class="context-line"><span class="dot"></span><span class="label">At a glance</span></span><button class="select">Use this</button></div>
+    </article>
+    <article class="card" data-option="B">
+      <div class="card-head"><span class="option">Option B</span><span class="best">Most minimal</span></div>
+      <h2>Context ring</h2>
+      <p>Feels lighter and more Claude-like. The popover carries the detail; the bar only signals pressure.</p>
+      <div class="demo"><div class="statusbar"><div class="status-left"><span class="dot warn"></span><span class="truncate">Working</span></div><div class="status-right"><span class="ring"></span><span class="value">71%</span><span>Context</span></div></div></div>
+      <div class="card-footer"><span class="context-line"><span class="dot warn"></span><span class="label">At a glance</span></span><button class="select">Use this</button></div>
+    </article>
+    <article class="card" data-option="C">
+      <div class="card-head"><span class="option">Option C</span><span class="best">Most explicit</span></div>
+      <h2>Text-first status</h2>
+      <p>Most understandable for new users, but spends more horizontal space and competes with other controls.</p>
+      <div class="demo"><div class="statusbar"><div class="status-left"><span class="dot hot"></span><span class="truncate">Context window</span></div><div class="status-right"><span class="chip">Near limit</span><span class="value">92% full</span></div></div></div>
+      <div class="card-footer"><span class="context-line"><span class="dot hot"></span><span class="label">At a glance</span></span><button class="select">Use this</button></div>
+    </article>
+  </section>
+  <div class="detail"><strong>My recommendation:</strong> Option A. Keep the status bar quiet at normal usage, make the meter more amber near 75%, and reserve red for genuinely constrained context. The existing popover can remain the detailed view on click.</div>
+</main>
+<script>
+const root=document.documentElement;
+const buttons=[...document.querySelectorAll('[data-theme]')];
+function setTheme(value){ if(value==='system') root.removeAttribute('data-theme'); else root.dataset.theme=value; buttons.forEach(b=>b.classList.toggle('active',b.dataset.theme===value)); }
+buttons.forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.theme)));
+document.querySelectorAll('.card').forEach(card=>card.addEventListener('click',e=>{ if(e.target.closest('button')) { document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); }}));
+</script>
+</body>
+</html>

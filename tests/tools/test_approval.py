@@ -30,6 +30,7 @@ class TestApprovalModeParsing:
         # to the safe manual mode.
         assert _normalize_approval_mode(False) == "off"
         assert _normalize_approval_mode("off") == "off"
+        assert _normalize_approval_mode("plan") == "plan"
         assert _normalize_approval_mode("  SMART  ") == "smart"
         assert _normalize_approval_mode(True) == "manual"
         assert _normalize_approval_mode("") == "manual"

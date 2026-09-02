@@ -2559,6 +2559,8 @@ export const zhHant = defineLocale({
       manualDescription: '執行需要核准的操作前詢問',
       smart: '智慧',
       smartDescription: '自動評估操作，並在需要時詢問',
+      plan: '計畫',
+      planDescription: '計畫模式會暫停變更，直到你核准計畫',
       off: '關閉',
       offDescription: '不顯示核准提示，直接執行'
     },

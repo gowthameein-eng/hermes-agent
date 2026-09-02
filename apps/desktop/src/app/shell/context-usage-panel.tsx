@@ -69,6 +69,45 @@ export function ContextUsagePanel({ breakdown, loading, usage }: ContextUsagePan
   )
 }
 
+/** Compact statusbar readout: the bar carries severity and composition, while
+ * the existing popover remains the detailed inspection surface. */
+export function ContextUsageStatusbarLabel({
+  categories,
+  usage
+}: {
+  categories: readonly ContextUsageCategory[]
+  usage: UsageStats
+}) {
+  const percent = Math.max(0, Math.min(100, Math.round(usage.context_percent ?? 0)))
+  const segmentTotal = categories.reduce((sum, category) => sum + category.tokens, 0) || usage.context_used || 1
+  const severity = percent >= 90 ? 'text-destructive' : percent >= 75 ? 'text-amber-600' : 'text-(--ui-text-tertiary)'
+
+  return (
+    <span
+      aria-label={`Context window ${percent}% full`}
+      className={cn('inline-flex items-center gap-1.5 tabular-nums', severity)}
+      data-slot="context-usage-statusbar"
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          'inline-flex h-1.5 w-11 overflow-hidden rounded-full bg-(--ui-stroke-tertiary)',
+          !categories.length && 'dither bg-(--ui-bg-elevated)'
+        )}
+      >
+        {categories.map(category => (
+          <span
+            className="h-full min-w-px"
+            key={category.id}
+            style={{ background: category.color, width: `${(category.tokens / segmentTotal) * 100}%` }}
+          />
+        ))}
+      </span>
+      <span>{percent}%</span>
+    </span>
+  )
+}
+
 function ContextUsageBar({
   categories,
   segmentTotal

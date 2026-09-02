@@ -36,6 +36,16 @@ function Harness({
 }
 
 describe('approval mode statusbar item', () => {
+  it('offers Plan mode alongside approval modes', async () => {
+    const response = new Promise<never>(() => undefined)
+    render(<Harness requestGateway={vi.fn(() => response)} />)
+
+    fireEvent.pointerDown(screen.getByRole('button', { name: 'Smart' }), { button: 0 })
+
+    expect(screen.getByText('Plan')).toBeTruthy()
+    expect(screen.getByText(/Plan mode keeps changes on hold/i)).toBeTruthy()
+  })
+
   it('uses the shared statusbar menu trigger without a nested bespoke button', async () => {
     const response = new Promise<never>(() => undefined)
     render(<Harness requestGateway={vi.fn(() => response)} />)
@@ -49,6 +59,7 @@ describe('approval mode statusbar item', () => {
     expect(await screen.findByRole('menuitemradio', { name: /manual/i })).toBeTruthy()
     expect(trigger.getAttribute('aria-haspopup')).toBe('menu')
     expect(screen.getByRole('menuitemradio', { name: /smart/i })).toBeTruthy()
+    expect(screen.getByRole('menuitemradio', { name: /plan/i })).toBeTruthy()
     expect(screen.getByRole('menuitemradio', { name: /off/i })).toBeTruthy()
   })
 
@@ -62,6 +73,19 @@ describe('approval mode statusbar item', () => {
     await waitFor(() => {
       expect(requestGateway).toHaveBeenCalledWith('config.set', { key: 'approvals.mode', value: 'manual' })
       expect(screen.getByRole('button', { name: /manual/i })).toBeTruthy()
+    })
+  })
+
+  it('persists Plan mode through the gateway', async () => {
+    const requestGateway = vi.fn(async (_method, params) => ({ value: params?.value ?? 'smart' }))
+    render(<Harness profile="work" requestGateway={requestGateway} />)
+
+    fireEvent.pointerDown(screen.getByRole('button', { name: /smart/i }), { button: 0 })
+    fireEvent.click(await screen.findByRole('menuitemradio', { name: /plan/i }))
+
+    await waitFor(() => {
+      expect(requestGateway).toHaveBeenCalledWith('config.set', { key: 'approvals.mode', value: 'plan' })
+      expect(screen.getByRole('button', { name: /plan/i })).toBeTruthy()
     })
   })
 

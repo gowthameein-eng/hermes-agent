@@ -25,17 +25,18 @@ export function useApprovalModeStatusbarItem(profile: string, requestGateway: Ap
   const mode = modes[profile.trim() || 'default'] ?? 'smart'
 
   const labels = useMemo<Record<ApprovalMode, string>>(
-    () => ({ manual: copy.manual, smart: copy.smart, off: copy.off }),
-    [copy.manual, copy.off, copy.smart]
+    () => ({ manual: copy.manual, smart: copy.smart, plan: copy.plan, off: copy.off }),
+    [copy.manual, copy.off, copy.plan, copy.smart]
   )
 
   const descriptions = useMemo<Record<ApprovalMode, string>>(
     () => ({
       manual: copy.manualDescription,
       smart: copy.smartDescription,
+      plan: copy.planDescription,
       off: copy.offDescription
     }),
-    [copy.manualDescription, copy.offDescription, copy.smartDescription]
+    [copy.manualDescription, copy.offDescription, copy.planDescription, copy.smartDescription]
   )
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export function useApprovalModeStatusbarItem(profile: string, requestGateway: Ap
           }}
           value={mode}
         >
-          {(['manual', 'smart', 'off'] as const).map(value => (
+          {(['manual', 'smart', 'plan', 'off'] as const).map(value => (
             <DropdownMenuRadioItem className="items-start gap-2" key={value} value={value}>
               <span className="flex min-w-0 flex-col gap-0.5">
                 <span className="text-xs text-foreground">{labels[value]}</span>

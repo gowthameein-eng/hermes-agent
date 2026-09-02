@@ -2576,6 +2576,8 @@ export interface Translations {
       manualDescription: string
       smart: string
       smartDescription: string
+      plan: string
+      planDescription: string
       off: string
       offDescription: string
     }

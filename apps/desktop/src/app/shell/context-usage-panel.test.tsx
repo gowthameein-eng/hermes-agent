@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import type { ContextBreakdown, UsageStats } from '@/types/hermes'
 
-import { ContextUsagePanel } from './context-usage-panel'
+import { ContextUsagePanel, ContextUsageStatusbarLabel } from './context-usage-panel'
 import { useContextBreakdown } from './hooks/use-context-breakdown'
 
 const usage: UsageStats = {
@@ -101,6 +101,26 @@ describe('useContextBreakdown', () => {
 })
 
 describe('ContextUsagePanel', () => {
+  it('renders a compact segmented statusbar readout with accessible severity text', () => {
+    render(<ContextUsageStatusbarLabel categories={breakdown.categories} usage={usage} />)
+
+    expect(screen.getByLabelText('Context window 47% full')).toBeTruthy()
+    expect(screen.getByText('47%')).toBeTruthy()
+    expect(document.querySelectorAll('[data-slot="context-usage-statusbar"] > span > span')).toHaveLength(1)
+  })
+
+  it('uses warning and destructive colors as context pressure rises', () => {
+    const { rerender } = render(
+      <ContextUsageStatusbarLabel categories={breakdown.categories} usage={{ ...usage, context_percent: 75 }} />
+    )
+    expect(screen.getByLabelText('Context window 75% full').className).toContain('text-amber-600')
+
+    rerender(
+      <ContextUsageStatusbarLabel categories={breakdown.categories} usage={{ ...usage, context_percent: 90 }} />
+    )
+    expect(screen.getByLabelText('Context window 90% full').className).toContain('text-destructive')
+  })
+
   it('renders the usage it is handed, so the popover matches the bar', () => {
     render(<ContextUsagePanel breakdown={breakdown} loading={false} usage={usage} />)
 

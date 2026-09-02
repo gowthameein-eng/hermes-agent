@@ -3029,6 +3029,8 @@ export const en: Translations = {
       manualDescription: 'Ask before actions that require approval',
       smart: 'Smart',
       smartDescription: 'Automatically assess actions and ask when needed',
+      plan: 'Plan',
+      planDescription: 'Plan mode keeps changes on hold until you approve the plan',
       off: 'Off',
       offDescription: 'Run without approval prompts'
     },

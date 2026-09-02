@@ -2659,6 +2659,8 @@ export const ja = defineLocale({
       manualDescription: '承認が必要な操作の前に確認します',
       smart: 'スマート',
       smartDescription: '必要な場合にのみ確認します',
+      plan: '計画',
+      planDescription: '計画モードでは、計画を承認するまで変更を保留します',
       off: 'オフ',
       offDescription: '承認プロンプトなしで実行します'
     },

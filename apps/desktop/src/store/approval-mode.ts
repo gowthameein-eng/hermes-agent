@@ -1,9 +1,9 @@
 import { atom } from 'nanostores'
 
-export type ApprovalMode = 'manual' | 'off' | 'smart'
+export type ApprovalMode = 'manual' | 'off' | 'plan' | 'smart'
 export type ApprovalModeRequester = (method: string, params?: Record<string, unknown>) => Promise<unknown>
 
-const APPROVAL_MODES = new Set<ApprovalMode>(['manual', 'smart', 'off'])
+const APPROVAL_MODES = new Set<ApprovalMode>(['manual', 'smart', 'plan', 'off'])
 const revisions = new Map<string, number>()
 const confirmedModes = new Map<string, ApprovalMode>()
 

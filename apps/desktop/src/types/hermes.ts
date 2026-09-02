@@ -709,7 +709,7 @@ export interface SessionResumeResponse {
 }
 
 export interface SessionRuntimeInfo {
-  approval_mode?: 'manual' | 'off' | 'smart'
+  approval_mode?: 'manual' | 'off' | 'plan' | 'smart'
   branch?: string
   config_warning?: string
   credential_warning?: string
