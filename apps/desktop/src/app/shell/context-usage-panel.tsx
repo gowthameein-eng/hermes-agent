@@ -32,7 +32,9 @@ export function ContextUsagePanel({ breakdown, loading, usage }: ContextUsagePan
     [breakdown?.categories, copy]
   )
 
-  const segmentTotal = categories.reduce((sum, category) => sum + category.tokens, 0) || contextUsed || 1
+  // Width represents the whole model window, not just the portion explained
+  // by categories. The unused capacity must remain visible after the segments.
+  const segmentTotal = contextMax || categories.reduce((sum, category) => sum + category.tokens, 0) || contextUsed || 1
 
   return (
     <div className="flex w-72 flex-col gap-3 p-3 text-[0.75rem]" data-slot="context-usage-panel">
@@ -79,7 +81,8 @@ export function ContextUsageStatusbarLabel({
   usage: UsageStats
 }) {
   const percent = Math.max(0, Math.min(100, Math.round(usage.context_percent ?? 0)))
-  const segmentTotal = categories.reduce((sum, category) => sum + category.tokens, 0) || usage.context_used || 1
+  const segmentTotal =
+    usage.context_max || categories.reduce((sum, category) => sum + category.tokens, 0) || usage.context_used || 1
   const severity = percent >= 90 ? 'text-destructive' : percent >= 75 ? 'text-amber-600' : 'text-(--ui-text-tertiary)'
 
   return (

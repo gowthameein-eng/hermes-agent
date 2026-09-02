@@ -109,6 +109,15 @@ describe('ContextUsagePanel', () => {
     expect(document.querySelectorAll('[data-slot="context-usage-statusbar"] > span > span')).toHaveLength(1)
   })
 
+  it('scales segments against the full context window, leaving unused capacity empty', () => {
+    render(<ContextUsageStatusbarLabel categories={breakdown.categories} usage={usage} />)
+
+    const meter = document.querySelector('[data-slot="context-usage-statusbar"] > span')
+    const segment = meter?.querySelector('span')
+    expect(segment).toBeTruthy()
+    expect((segment as HTMLElement).style.width).toBe('88.75%')
+  })
+
   it('uses warning and destructive colors as context pressure rises', () => {
     const { rerender } = render(
       <ContextUsageStatusbarLabel categories={breakdown.categories} usage={{ ...usage, context_percent: 75 }} />
