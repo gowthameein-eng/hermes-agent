@@ -94,6 +94,7 @@ export interface Translations {
   }
 
   fileMenu: {
+    changeWorkingFolder: string
     revealFinder: string
     revealExplorer: string
     revealFileManager: string

@@ -332,11 +332,19 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     [activeSessionIdRef, updateSessionState]
   )
 
-  const { refreshProjectBranch } = useCwdActions({
+  const { changeSessionCwd, refreshProjectBranch } = useCwdActions({
     activeSessionIdRef,
     onSessionRuntimeInfo: updateActiveSessionRuntimeInfo,
     requestGateway
   })
+
+  const chooseWorkingFolder = useCallback(async () => {
+    const folder = await pickProjectFolder()
+
+    if (folder) {
+      await changeSessionCwd(folder)
+    }
+  }, [changeSessionCwd])
 
   const { refreshHermesConfig, sttEnabled, voiceMaxRecordingSeconds } = useHermesConfig({ activeSessionIdRef })
 
@@ -954,6 +962,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
   // identity for the app's life (memoized surfaces don't re-render on churn)
   // while every handler still closes over the latest values.
   const nextActions: WiringActions = {
+    chooseWorkingFolder: () => void chooseWorkingFolder(),
     onAddContextRef: composer.addContextRefAttachment,
     onAddUrl: url => composer.addContextRefAttachment(`@url:${formatRefValue(url)}`, url),
     onArchiveSession: sessionId => void archiveSession(sessionId),
