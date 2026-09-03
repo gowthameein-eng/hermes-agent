@@ -1,0 +1,32 @@
+name: claude-inspired
+description: Crisp Claude-inspired paper palette for Hermes surfaces
+
+colors:
+  background: "#f7f6f2"
+  ui_accent: "#d97757"
+  banner_accent: "#d97757"
+  banner_title: "#252422"
+  banner_text: "#252422"
+  ui_text: "#252422"
+  banner_dim: "#65635e"
+  banner_border: "#d2d0ca"
+  ui_border: "#d2d0ca"
+  ui_ok: "#287a58"
+  ui_warn: "#a96316"
+  ui_error: "#b9473b"
+  prompt: "#252422"
+  input_rule: "#d97757"
+  response_border: "#d2d0ca"
+  status_bar_bg: "#eceae4"
+  status_bar_text: "#252422"
+  status_bar_good: "#287a58"
+  status_bar_warn: "#a96316"
+  status_bar_critical: "#b9473b"
+  session_label: "#252422"
+  session_border: "#d2d0ca"
+
+branding:
+  agent_name: Hermes Agent
+  prompt_symbol: "❯"
+
+tool_prefix: "┊"
