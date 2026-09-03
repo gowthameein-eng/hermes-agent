@@ -27,6 +27,9 @@ fi
 # Track source/UI changes and the mirrored customization files, but never build
 # output, dependencies, credentials, or the Hermes profile configuration.
 git add -u -- agent hermes_cli tools apps/desktop/src apps/desktop/context-statusbar-options.html
+while IFS= read -r path; do
+  [ -n "$path" ] && git add -- "$path"
+done < <(git ls-files --others --exclude-standard -- agent hermes_cli tools apps/desktop/src apps/desktop/context-statusbar-options.html)
 if [ -f "$SNAPSHOT_DIR/claude-inspired.yaml" ]; then git add -- "$SNAPSHOT_DIR/claude-inspired.yaml"; fi
 if [ -d "$SNAPSHOT_DIR/claude-inspired-theme" ]; then git add -- "$SNAPSHOT_DIR/claude-inspired-theme"; fi
 
