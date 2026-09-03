@@ -39,3 +39,6 @@ fi
 
 STAMP="$(date '+%Y-%m-%d %H:%M:%S %z')"
 git commit -m "Autosave Hermes customizations ($STAMP)" >/dev/null
+if git remote get-url github-backup >/dev/null 2>&1; then
+  git push github-backup "$BRANCH" >/dev/null
+fi
