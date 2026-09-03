@@ -96,6 +96,7 @@ export const StatusbarSurface = memo(function StatusbarSurface({
     freshDraftReady,
     gatewayState,
     inferenceStatus,
+    chooseWorkingFolder: actions.chooseWorkingFolder,
     openAgents: actions.openAgents,
     openCommandCenterSection: actions.openCommandCenterSection,
     requestGateway: actions.requestGateway,

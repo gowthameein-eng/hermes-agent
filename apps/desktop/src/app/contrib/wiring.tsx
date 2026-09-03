@@ -58,7 +58,7 @@ import {
   normalizeProfileKey,
   refreshActiveProfile
 } from '@/store/profile'
-import { $startWorkSessionRequest, followActiveSessionCwd } from '@/store/projects'
+import { $startWorkSessionRequest, followActiveSessionCwd, pickProjectFolder } from '@/store/projects'
 import {
   $activeSessionId,
   $connection,

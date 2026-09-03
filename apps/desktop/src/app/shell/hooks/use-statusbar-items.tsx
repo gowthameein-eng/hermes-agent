@@ -59,6 +59,7 @@ const EMPTY_USAGE: UsageStats = { calls: 0, input: 0, output: 0, total: 0 }
 interface StatusbarItemsOptions {
   agentsOpen: boolean
   chatOpen: boolean
+  chooseWorkingFolder: () => void
   commandCenterOpen: boolean
   extraLeftItems: readonly StatusbarItem[]
   extraRightItems: readonly StatusbarItem[]
@@ -75,6 +76,7 @@ interface StatusbarItemsOptions {
 export function useStatusbarItems({
   agentsOpen,
   chatOpen,
+  chooseWorkingFolder,
   commandCenterOpen,
   extraLeftItems,
   extraRightItems,
@@ -450,6 +452,11 @@ export function useStatusbarItems({
                 title: displayPath(currentCwd)
               },
               {
+                id: 'change-workspace-folder',
+                label: fileMenu.changeWorkingFolder,
+                onSelect: chooseWorkingFolder
+              },
+              {
                 id: 'reveal-workspace-finder',
                 label: fileMenu.revealFileManager,
                 onSelect: () => void revealFile(currentCwd),
@@ -513,6 +520,7 @@ export function useStatusbarItems({
     [
       agentsOpen,
       botsShowing,
+      chooseWorkingFolder,
       commandCenterOpen,
       copy,
       currentCwd,
