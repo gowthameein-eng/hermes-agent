@@ -144,3 +144,5 @@ export default {
     requestTheme(THEME_NAME)
   }
 }
+
+// Autosave watcher verification checkpoint.
