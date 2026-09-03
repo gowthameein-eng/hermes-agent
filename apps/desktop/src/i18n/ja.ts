@@ -46,6 +46,7 @@ export const ja = defineLocale({
   },
 
   fileMenu: {
+    changeWorkingFolder: '作業フォルダーを変更…',
     revealFinder: 'Finder で表示',
     revealExplorer: 'エクスプローラーで表示',
     revealFileManager: '格納フォルダーを開く',

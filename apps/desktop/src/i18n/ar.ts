@@ -62,6 +62,7 @@ export const ar = defineLocale({
     off: 'معطل'
   },
   fileMenu: {
+    changeWorkingFolder: 'تغيير مجلد العمل…',
     revealFinder: 'إظهار في Finder',
     revealExplorer: 'إظهار في File Explorer',
     revealFileManager: 'فتح المجلد الحاوي',

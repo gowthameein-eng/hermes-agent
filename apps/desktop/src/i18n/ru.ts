@@ -66,6 +66,7 @@ export const ru = defineLocale({
     off: 'Выкл'
   },
   fileMenu: {
+    changeWorkingFolder: 'Изменить рабочую папку…',
     revealFinder: 'Показать в Finder',
     revealExplorer: 'Показать в Проводнике',
     revealFileManager: 'Открыть содержащую папку',

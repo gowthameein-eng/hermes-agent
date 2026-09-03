@@ -46,6 +46,7 @@ export const en: Translations = {
   },
 
   fileMenu: {
+    changeWorkingFolder: 'Change working folder…',
     revealFinder: 'Reveal in Finder',
     revealExplorer: 'Reveal in File Explorer',
     revealFileManager: 'Open containing folder',
